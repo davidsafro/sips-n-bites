@@ -1,0 +1,7 @@
+Place your cinematic intro video here as intro.mp4
+
+Supported format: MP4 (H.264 recommended)
+Recommended resolution: 1920x1080 or 1280x720
+Recommended duration: 5-15 seconds (loops until user clicks Enter)
+
+The app will display an elegant gradient fallback if the video is not found.
