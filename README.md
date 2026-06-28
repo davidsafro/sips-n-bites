@@ -11,6 +11,14 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
+## Live Site
+
+After GitHub Pages deploys, share:
+
+**https://davidsafro.github.io/sips-n-bites/**
+
+Enable it once in your repo: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
+
 ## Features
 
 - **Cinematic Intro** — Full-screen video overlay with smooth fade-out transition

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { assetPath } from "@/lib/base-path";
 
 const INTRO_STORAGE_KEY = "sips-bites-intro-seen";
 
@@ -61,7 +62,7 @@ export function IntroVideo({ onComplete }: IntroVideoProps) {
                 className="h-full w-full object-cover"
                 onError={() => setVideoError(true)}
               >
-                <source src="/videos/intro.mp4" type="video/mp4" />
+                <source src={assetPath("/videos/intro.mp4")} type="video/mp4" />
               </video>
             ) : (
               <div className="relative h-full w-full">
