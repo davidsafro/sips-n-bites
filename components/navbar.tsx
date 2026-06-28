@@ -6,6 +6,7 @@ import { ShoppingBag, Menu, X } from "lucide-react";
 import { useCart } from "@/context/cart-context";
 import { formatPrice } from "@/lib/products";
 import { cn } from "@/lib/utils";
+import { CartDrawer } from "@/components/cart-drawer";
 
 const navLinks = [
   { label: "Menu", href: "#menu" },
@@ -17,6 +18,7 @@ export function Navbar() {
   const { itemCount, total } = useCart();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [cartOpen, setCartOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -63,9 +65,12 @@ export function Navbar() {
 
           <div className="flex items-center gap-3">
             <motion.button
+              type="button"
+              onClick={() => setCartOpen(true)}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               className="relative flex items-center gap-2 rounded-xl bg-[#8B0000] px-4 py-2 text-sm font-medium text-white shadow-md shadow-[#8B0000]/20 transition-shadow hover:shadow-lg hover:shadow-[#8B0000]/30"
+              aria-label="Open order bag"
             >
               <ShoppingBag className="h-4 w-4" />
               <span className="hidden sm:inline">Bag</span>
@@ -122,6 +127,8 @@ export function Navbar() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} />
     </>
   );
 }
