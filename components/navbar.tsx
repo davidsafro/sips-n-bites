@@ -11,7 +11,6 @@ import { CartDrawer } from "@/components/cart-drawer";
 const navLinks = [
   { label: "Menu", href: "#menu" },
   { label: "Story", href: "#story" },
-  { label: "Order", href: "#order" },
 ];
 
 export function Navbar() {

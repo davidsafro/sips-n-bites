@@ -73,10 +73,10 @@ export default function HomePage() {
                 initial="hidden"
                 animate={introComplete ? "visible" : "hidden"}
                 variants={fadeUp}
-                className="text-5xl font-light tracking-tight text-[#1a1a1a] sm:text-6xl md:text-7xl lg:text-8xl"
+                className="text-4xl font-light leading-tight tracking-tight text-[#1a1a1a] sm:text-5xl md:text-6xl lg:text-7xl"
               >
-                Tradition,{" "}
-                <span className="font-semibold text-[#8B0000]">Reimagined.</span>
+                Pure satisfaction for your{" "}
+                <span className="font-semibold text-[#8B0000]">cravings.</span>
               </motion.h1>
 
               <motion.p
@@ -285,7 +285,7 @@ export default function HomePage() {
               </span>
             </div>
             <p className="text-xs text-neutral-400">
-              © {new Date().getFullYear()} Sips &amp; Bites. Tradition, Reimagined.
+              © {new Date().getFullYear()} Sips &amp; Bites. Pure satisfaction for your cravings.
             </p>
           </div>
         </footer>

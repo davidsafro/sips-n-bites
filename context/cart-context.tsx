@@ -4,6 +4,7 @@ import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useState,
   type ReactNode,
@@ -17,6 +18,8 @@ import {
   getProduct,
 } from "@/lib/products";
 
+const CART_STORAGE_KEY = "sips-bites-cart";
+
 interface CartContextValue {
   items: CartItem[];
   notifications: CartNotification[];
@@ -27,6 +30,7 @@ interface CartContextValue {
     quantity?: number,
     toppings?: string[]
   ) => void;
+  decreaseQuantity: (productId: ProductId) => void;
   removeFromCart: (productId: ProductId) => void;
   clearCart: () => void;
   dismissNotification: (id: string) => void;
@@ -34,9 +38,32 @@ interface CartContextValue {
 
 const CartContext = createContext<CartContextValue | null>(null);
 
+function loadStoredCart(): CartItem[] {
+  if (typeof window === "undefined") return [];
+  try {
+    const stored = localStorage.getItem(CART_STORAGE_KEY);
+    if (!stored) return [];
+    const parsed = JSON.parse(stored) as CartItem[];
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
+
 export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
   const [notifications, setNotifications] = useState<CartNotification[]>([]);
+  const [hydrated, setHydrated] = useState(false);
+
+  useEffect(() => {
+    setItems(loadStoredCart());
+    setHydrated(true);
+  }, []);
+
+  useEffect(() => {
+    if (!hydrated) return;
+    localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(items));
+  }, [items, hydrated]);
 
   const pushNotification = useCallback((message: string, type: CartNotification["type"] = "success") => {
     const id = `${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
@@ -84,6 +111,21 @@ export function CartProvider({ children }: { children: ReactNode }) {
     [pushNotification]
   );
 
+  const decreaseQuantity = useCallback((productId: ProductId) => {
+    setItems((prev) => {
+      const item = prev.find((entry) => entry.productId === productId);
+      if (!item) return prev;
+      if (item.quantity <= 1) {
+        return prev.filter((entry) => entry.productId !== productId);
+      }
+      return prev.map((entry) =>
+        entry.productId === productId
+          ? { ...entry, quantity: entry.quantity - 1 }
+          : entry
+      );
+    });
+  }, []);
+
   const removeFromCart = useCallback((productId: ProductId) => {
     setItems((prev) => prev.filter((item) => item.productId !== productId));
   }, []);
@@ -104,6 +146,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       itemCount: getCartCount(items),
       total: getCartTotal(items),
       addToCart,
+      decreaseQuantity,
       removeFromCart,
       clearCart,
       dismissNotification,
@@ -112,6 +155,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       items,
       notifications,
       addToCart,
+      decreaseQuantity,
       removeFromCart,
       clearCart,
       dismissNotification,

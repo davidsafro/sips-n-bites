@@ -13,7 +13,7 @@ interface CartDrawerProps {
 }
 
 export function CartDrawer({ open, onClose }: CartDrawerProps) {
-  const { items, total, itemCount, removeFromCart } = useCart();
+  const { items, total, itemCount, decreaseQuantity } = useCart();
   const whatsappUrl = buildWhatsAppOrderUrl(items);
 
   return (
@@ -95,9 +95,9 @@ export function CartDrawer({ open, onClose }: CartDrawerProps) {
                           </p>
                         </div>
                         <button
-                          onClick={() => removeFromCart(item.productId)}
+                          onClick={() => decreaseQuantity(item.productId)}
                           className="rounded-lg p-2 text-neutral-400 transition-colors hover:bg-white hover:text-[#8B0000]"
-                          aria-label={`Remove ${item.name}`}
+                          aria-label={`Remove one ${item.name}`}
                         >
                           <Minus className="h-4 w-4" />
                         </button>

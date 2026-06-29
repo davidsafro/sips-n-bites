@@ -1,34 +1,22 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { assetPath } from "@/lib/base-path";
-
-const INTRO_STORAGE_KEY = "sips-bites-intro-seen";
 
 interface IntroVideoProps {
   onComplete: () => void;
 }
 
 export function IntroVideo({ onComplete }: IntroVideoProps) {
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
   const [isExiting, setIsExiting] = useState(false);
   const [videoError, setVideoError] = useState(false);
 
-  useEffect(() => {
-    const hasSeenIntro = localStorage.getItem(INTRO_STORAGE_KEY);
-    if (hasSeenIntro) {
-      onComplete();
-      return;
-    }
-    setIsVisible(true);
-  }, [onComplete]);
-
   const handleEnter = () => {
     setIsExiting(true);
-    localStorage.setItem(INTRO_STORAGE_KEY, "true");
     setTimeout(() => {
       setIsVisible(false);
       onComplete();
@@ -59,10 +47,13 @@ export function IntroVideo({ onComplete }: IntroVideoProps) {
                 muted
                 loop
                 playsInline
-                className="h-full w-full object-cover"
+                className="h-full w-full bg-[#1a0a0a] object-contain sm:object-cover"
                 onError={() => setVideoError(true)}
               >
-                <source src={assetPath("/videos/intro.mp4")} type="video/mp4" />
+                <source
+                  src={`${assetPath("/videos/intro.mp4")}?v=2`}
+                  type="video/mp4"
+                />
               </video>
             ) : (
               <div className="relative h-full w-full">
@@ -80,15 +71,15 @@ export function IntroVideo({ onComplete }: IntroVideoProps) {
               </div>
             )}
 
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-black/40" />
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-black/30 sm:from-black/70 sm:via-black/20 sm:to-black/40" />
           </motion.div>
 
-          <div className="relative z-10 flex h-full w-full flex-col">
+          <div className="pointer-events-none relative z-10 flex h-full w-full flex-col">
             <motion.p
               initial={{ opacity: 0, y: -16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-              className="pt-10 text-center text-xs font-medium tracking-[0.4em] text-white/80 uppercase sm:pt-14"
+              className="pointer-events-none pt-8 text-center text-[10px] font-medium tracking-[0.35em] text-white/80 uppercase sm:pt-14 sm:text-xs sm:tracking-[0.4em]"
             >
               Premium Ghanaian Delicacies
             </motion.p>
@@ -99,7 +90,7 @@ export function IntroVideo({ onComplete }: IntroVideoProps) {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-              className="flex justify-center px-6 pb-12 sm:pb-16"
+              className="pointer-events-auto flex justify-center px-4 pb-[max(7rem,18vh)] sm:px-6 sm:pb-16"
             >
               <motion.button
                 onClick={handleEnter}
@@ -108,8 +99,8 @@ export function IntroVideo({ onComplete }: IntroVideoProps) {
                 whileTap={{ scale: 0.97 }}
                 className={cn(
                   "group animate-pulse-subtle flex items-center gap-3 rounded-full",
-                  "border border-white/20 bg-white/10 px-8 py-4",
-                  "text-sm font-medium tracking-wide text-white backdrop-blur-md",
+                  "border border-white/20 bg-white/10 px-6 py-3.5 sm:px-8 sm:py-4",
+                  "text-xs font-medium tracking-wide text-white backdrop-blur-md sm:text-sm",
                   "transition-all duration-300 hover:bg-white/20 hover:shadow-2xl",
                   "disabled:pointer-events-none disabled:opacity-50"
                 )}
@@ -123,10 +114,4 @@ export function IntroVideo({ onComplete }: IntroVideoProps) {
       )}
     </AnimatePresence>
   );
-}
-
-export function resetIntroState() {
-  if (typeof window !== "undefined") {
-    localStorage.removeItem(INTRO_STORAGE_KEY);
-  }
 }

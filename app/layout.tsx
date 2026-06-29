@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Sips & Bites | Premium Ghanaian Delicacies",
   description:
-    "Tradition, reimagined. Premium BanBite, ChocoBite, and Creamy Ken crafted with love in Ghana.",
+    "Pure satisfaction for your cravings. Premium BanBite, ChocoBite, and Creamy Ken crafted with love in Cape Coast, Ghana.",
   keywords: ["Ghanaian food", "BanBite", "ChocoBite", "Creamy Ken", "Cape Coast", "Sips and Bites"],
 };
 

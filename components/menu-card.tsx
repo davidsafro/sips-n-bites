@@ -51,9 +51,6 @@ export function MenuCard({ product, index }: MenuCardProps) {
             >
               {product.emoji}
             </motion.div>
-            <span className="rounded-full bg-[#8B0000]/8 px-3 py-1 text-xs font-semibold tracking-wide text-[#8B0000] uppercase">
-              {product.tagline}
-            </span>
           </div>
 
           <div className="space-y-2">
